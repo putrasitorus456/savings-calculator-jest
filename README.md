@@ -13,5 +13,5 @@
 - Run tests.
 
   ```bash
-  npm run coverage
+  npm test
    ```
