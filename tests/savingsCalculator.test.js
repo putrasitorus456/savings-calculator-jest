@@ -12,7 +12,16 @@ testData.forEach(data => {
 });
 
 describe.each(testData)('calculateMonthsToSave', ({ initialAmount, monthlySavings, targetAmount, expected }) => {
-  test(`initialAmount: ${initialAmount}, monthlySavings: ${monthlySavings}, targetAmount: ${targetAmount}, return: ${expected}`,  () => {
+  let caseLabel;
+  if (expected === 0) {
+    caseLabel = "Boundary Case";
+  } else if (expected === Infinity) {
+    caseLabel = "Extreme Case";
+  } else {
+    caseLabel = "Normal Case";
+  }
+
+  test(`${caseLabel} - initialAmount: ${initialAmount}, monthlySavings: ${monthlySavings}, targetAmount: ${targetAmount}, expected: ${expected}`, () => {
     expect(calculateMonthsToSave(initialAmount, monthlySavings, targetAmount)).toBe(expected);
   });
 });

@@ -1,6 +1,7 @@
 function calculateMonthsToSave(initialAmount, monthlySavings, targetAmount) {
+    if (targetAmount < 0) return Infinity;
     if (initialAmount >= targetAmount) return 0;
-    if (monthlySavings === 0) return Infinity;
+    if (monthlySavings === 0 || monthlySavings < 0) return Infinity;
   
     let months = 0;
     let currentAmount = initialAmount;
