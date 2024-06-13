@@ -1,21 +1,18 @@
 const calculateMonthsToSave = require('../src/savingsCalculator');
+const fs = require('fs');
+const path = require('path');
 
-test('calculate months to save with initialAmount less than targetAmount', () => {
-  expect(calculateMonthsToSave(100, 50, 200)).toBe(2);
+const testDataPath = path.join(__dirname, 'testData.json');
+const testData = JSON.parse(fs.readFileSync(testDataPath, 'utf8'));
+
+testData.forEach(data => {
+  if (data.expected === "Infinity") {
+    data.expected = Infinity;
+  }
 });
 
-test('calculate months to save with initialAmount equal to targetAmount', () => {
-  expect(calculateMonthsToSave(200, 50, 200)).toBe(0);
-});
-
-test('calculate months to save with initialAmount greater than targetAmount', () => {
-  expect(calculateMonthsToSave(300, 50, 200)).toBe(0);
-});
-
-test('calculate months to save with zero monthly savings', () => {
-  expect(calculateMonthsToSave(100, 0, 200)).toBe(Infinity);
-});
-
-test('calculate months to save with target already reached', () => {
-  expect(calculateMonthsToSave(500, 50, 200)).toBe(0);
+describe.each(testData)('calculateMonthsToSave', ({ initialAmount, monthlySavings, targetAmount, expected }) => {
+  test(`initialAmount: ${initialAmount}, monthlySavings: ${monthlySavings}, targetAmount: ${targetAmount}, return: ${expected}`,  () => {
+    expect(calculateMonthsToSave(initialAmount, monthlySavings, targetAmount)).toBe(expected);
+  });
 });
